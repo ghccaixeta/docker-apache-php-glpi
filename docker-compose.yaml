@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    volumes:
+      - "${WWW_FOLDER}:/usr/share/nginx/html"
+      - ./conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
+    links:
+    - php-fpm
+  php-fpm:
+      container_name: php-fpm
+      build:
+        context: ./docker-configs/php/7.4
+      image: php:74-fpm
+      volumes:
+        - "${WWW_FOLDER}:/usr/share/nginx/html"
